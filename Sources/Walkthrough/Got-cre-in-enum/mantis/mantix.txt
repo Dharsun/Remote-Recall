@@ -1,0 +1,153 @@
+# Nmap 7.92 scan initiated Wed Oct  5 13:23:40 2022 as: nmap -vvv -Pn -sCV -T4 -p- -oN mantix.txt 10.10.10.52
+Increasing send delay for 10.10.10.52 from 0 to 5 due to 374 out of 934 dropped probes since last increase.
+Increasing send delay for 10.10.10.52 from 5 to 10 due to 13 out of 31 dropped probes since last increase.
+Nmap scan report for 10.10.10.52
+Host is up, received user-set (0.60s latency).
+Scanned at 2022-10-05 13:23:41 IST for 2202s
+Not shown: 65508 closed tcp ports (reset)
+PORT      STATE SERVICE      REASON          VERSION
+53/tcp    open  domain       syn-ack ttl 127 Microsoft DNS 6.1.7601 (1DB15CD4) (Windows Server 2008 R2 SP1)
+| dns-nsid: 
+|_  bind.version: Microsoft DNS 6.1.7601 (1DB15CD4)
+88/tcp    open  kerberos-sec syn-ack ttl 127 Microsoft Windows Kerberos (server time: 2022-10-05 08:28:35Z)
+135/tcp   open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+139/tcp   open  netbios-ssn  syn-ack ttl 127 Microsoft Windows netbios-ssn
+389/tcp   open  ldap         syn-ack ttl 127 Microsoft Windows Active Directory LDAP (Domain: htb.local, Site: Default-First-Site-Name)
+445/tcp   open  microsoft-ds syn-ack ttl 127 Windows Server 2008 R2 Standard 7601 Service Pack 1 microsoft-ds (workgroup: HTB)
+464/tcp   open  kpasswd5?    syn-ack ttl 127
+593/tcp   open  ncacn_http   syn-ack ttl 127 Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  tcpwrapped   syn-ack ttl 127
+1337/tcp  open  http         syn-ack ttl 127 Microsoft IIS httpd 7.5
+|_http-server-header: Microsoft-IIS/7.5
+| http-methods: 
+|   Supported Methods: OPTIONS TRACE GET HEAD POST
+|_  Potentially risky methods: TRACE
+|_http-title: IIS7
+1433/tcp  open  ms-sql-s     syn-ack ttl 127 Microsoft SQL Server 2014 12.00.2000.00; RTM
+|_ssl-date: 2022-10-05T08:30:03+00:00; -7s from scanner time.
+| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback
+| Issuer: commonName=SSL_Self_Signed_Fallback
+| Public Key type: rsa
+| Public Key bits: 1024
+| Signature Algorithm: sha1WithRSAEncryption
+| Not valid before: 2022-10-05T07:52:53
+| Not valid after:  2052-10-05T07:52:53
+| MD5:   2241 81a3 1fe8 1b21 8143 51c5 3bf3 92e4
+| SHA-1: e0f9 0b4b a622 2821 5d00 b75c fef9 11c3 cc1f c6d2
+| -----BEGIN CERTIFICATE-----
+| MIIB+zCCAWSgAwIBAgIQFl25slpbIadPn3AMezq51jANBgkqhkiG9w0BAQUFADA7
+| MTkwNwYDVQQDHjAAUwBTAEwAXwBTAGUAbABmAF8AUwBpAGcAbgBlAGQAXwBGAGEA
+| bABsAGIAYQBjAGswIBcNMjIxMDA1MDc1MjUzWhgPMjA1MjEwMDUwNzUyNTNaMDsx
+| OTA3BgNVBAMeMABTAFMATABfAFMAZQBsAGYAXwBTAGkAZwBuAGUAZABfAEYAYQBs
+| AGwAYgBhAGMAazCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAu6JJM2N3EwF7
+| +/rE+NDpKADO+N+DXynUIHXotFHKm77q2FWzbQBgUxP4SPElZW8/+0IgrZvA//sb
+| /BREfI333RS8ZtGo2a764nzumOwyHbWqe60aouYpFL98Vm3NaXbZVccpnNk/F3nM
+| ScQuMXaJk+KxllCpex0XYbxru02eh9cCAwEAATANBgkqhkiG9w0BAQUFAAOBgQBf
+| JI26LuLQo8w6NUEIpA09jCEOO5ICnPN3isYzB8bXa5b//3cqmwiD6fxhhyR7UvlX
+| pWts+Qx27UxSN0I8VsUK5kU2VQ5oEK0dA7JNOJQ9zNYZJJXegM4cx8IplatXXxag
+| Se/EjRT/kBC7sRuFK6kn0+NS8dySeHLP+x1E6chlLw==
+|_-----END CERTIFICATE-----
+| ms-sql-ntlm-info: 
+|   Target_Name: HTB
+|   NetBIOS_Domain_Name: HTB
+|   NetBIOS_Computer_Name: MANTIS
+|   DNS_Domain_Name: htb.local
+|   DNS_Computer_Name: mantis.htb.local
+|_  Product_Version: 6.1.7601
+3268/tcp  open  ldap         syn-ack ttl 127 Microsoft Windows Active Directory LDAP (Domain: htb.local, Site: Default-First-Site-Name)
+3269/tcp  open  tcpwrapped   syn-ack ttl 127
+5722/tcp  open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+8080/tcp  open  http         syn-ack ttl 127 Microsoft IIS httpd 7.5
+|_http-server-header: Microsoft-IIS/7.5
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-title: Tossed Salad - Blog
+9389/tcp  open  mc-nmf       syn-ack ttl 127 .NET Message Framing
+47001/tcp open  http         syn-ack ttl 127 Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+49152/tcp open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+49153/tcp open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+49154/tcp open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+49155/tcp open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+49157/tcp open  ncacn_http   syn-ack ttl 127 Microsoft Windows RPC over HTTP 1.0
+49158/tcp open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+49164/tcp open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+49166/tcp open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+49169/tcp open  msrpc        syn-ack ttl 127 Microsoft Windows RPC
+50255/tcp open  ms-sql-s     syn-ack ttl 127 Microsoft SQL Server 2014 12.00.2000
+|_ssl-date: 2022-10-05T08:30:03+00:00; -6s from scanner time.
+| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback
+| Issuer: commonName=SSL_Self_Signed_Fallback
+| Public Key type: rsa
+| Public Key bits: 1024
+| Signature Algorithm: sha1WithRSAEncryption
+| Not valid before: 2022-10-05T07:52:53
+| Not valid after:  2052-10-05T07:52:53
+| MD5:   2241 81a3 1fe8 1b21 8143 51c5 3bf3 92e4
+| SHA-1: e0f9 0b4b a622 2821 5d00 b75c fef9 11c3 cc1f c6d2
+| -----BEGIN CERTIFICATE-----
+| MIIB+zCCAWSgAwIBAgIQFl25slpbIadPn3AMezq51jANBgkqhkiG9w0BAQUFADA7
+| MTkwNwYDVQQDHjAAUwBTAEwAXwBTAGUAbABmAF8AUwBpAGcAbgBlAGQAXwBGAGEA
+| bABsAGIAYQBjAGswIBcNMjIxMDA1MDc1MjUzWhgPMjA1MjEwMDUwNzUyNTNaMDsx
+| OTA3BgNVBAMeMABTAFMATABfAFMAZQBsAGYAXwBTAGkAZwBuAGUAZABfAEYAYQBs
+| AGwAYgBhAGMAazCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAu6JJM2N3EwF7
+| +/rE+NDpKADO+N+DXynUIHXotFHKm77q2FWzbQBgUxP4SPElZW8/+0IgrZvA//sb
+| /BREfI333RS8ZtGo2a764nzumOwyHbWqe60aouYpFL98Vm3NaXbZVccpnNk/F3nM
+| ScQuMXaJk+KxllCpex0XYbxru02eh9cCAwEAATANBgkqhkiG9w0BAQUFAAOBgQBf
+| JI26LuLQo8w6NUEIpA09jCEOO5ICnPN3isYzB8bXa5b//3cqmwiD6fxhhyR7UvlX
+| pWts+Qx27UxSN0I8VsUK5kU2VQ5oEK0dA7JNOJQ9zNYZJJXegM4cx8IplatXXxag
+| Se/EjRT/kBC7sRuFK6kn0+NS8dySeHLP+x1E6chlLw==
+|_-----END CERTIFICATE-----
+| ms-sql-ntlm-info: 
+|   Target_Name: HTB
+|   NetBIOS_Domain_Name: HTB
+|   NetBIOS_Computer_Name: MANTIS
+|   DNS_Domain_Name: htb.local
+|   DNS_Computer_Name: mantis.htb.local
+|_  Product_Version: 6.1.7601
+Service Info: Host: MANTIS; OS: Windows; CPE: cpe:/o:microsoft:windows_server_2008:r2:sp1, cpe:/o:microsoft:windows
+
+Host script results:
+| ms-sql-info: 
+|   10.10.10.52:1433: 
+|     Version: 
+|       name: Microsoft SQL Server 2014 RTM
+|       number: 12.00.2000.00
+|       Product: Microsoft SQL Server 2014
+|       Service pack level: RTM
+|       Post-SP patches applied: false
+|_    TCP port: 1433
+|_clock-skew: mean: 34m10s, deviation: 1h30m43s, median: -6s
+| p2p-conficker: 
+|   Checking for Conficker.C or higher...
+|   Check 1 (port 12236/tcp): CLEAN (Couldn't connect)
+|   Check 2 (port 10637/tcp): CLEAN (Couldn't connect)
+|   Check 3 (port 19802/udp): CLEAN (Failed to receive data)
+|   Check 4 (port 20159/udp): CLEAN (Timeout)
+|_  0/4 checks are positive: Host is CLEAN or ports are blocked
+| smb2-security-mode: 
+|   2.1: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   date: 2022-10-05T08:29:43
+|_  start_date: 2022-10-05T07:52:26
+| smb-security-mode: 
+|   account_used: <blank>
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: required
+| smb-os-discovery: 
+|   OS: Windows Server 2008 R2 Standard 7601 Service Pack 1 (Windows Server 2008 R2 Standard 6.1)
+|   OS CPE: cpe:/o:microsoft:windows_server_2008::sp1
+|   Computer name: mantis
+|   NetBIOS computer name: MANTIS\x00
+|   Domain name: htb.local
+|   Forest name: htb.local
+|   FQDN: mantis.htb.local
+|_  System time: 2022-10-05T04:29:39-04:00
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Oct  5 14:00:23 2022 -- 1 IP address (1 host up) scanned in 2202.92 seconds

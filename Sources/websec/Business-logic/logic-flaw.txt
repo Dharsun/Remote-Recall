@@ -1,0 +1,50 @@
+Business logic vulnerabilities
+
+https://portswigger.net/web-security/logic-flaws
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Excessive trust in client-side controls
+
+Tamper the request using burp and try to change value 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+High-level logic vulnerability
+
+Add two products in cart and change 1 product prize as negative value as -10, And refresh the cart page and check if total cost is reduced
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Low-level logic vulnerability
+
+Add multiple number quatity of products to cart to make it has negative value and add other produts to add value in cart to make it has positive value 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Inconsistent handling of exceptional input
+
+Add very long email in registration email parameter with required domain address, there should be 256 characters with in 1st character to xx@xx.com. 
+ ex: ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss@dontwannacry.com.exploit-0a9d00ab049ab8fcc16b231601d200a4.exploit-server.net
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Inconsistent security controls
+
+Try to change domain of the email once you loged in with the help of update email feature.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Weak isolation on dual-use endpoint
+
+try to change value of parameter or delete entore parameter and obsove the different types of responces while deleting each parameter
+ ex: 4 parameters require of reset password, username,current-passwd,new-passwd,conform-new-passwd. 
+     We changed current-passwd as incorrect password and sent request, Response says current password is invalid
+     But If we delete entire current-passwd parameter, Responce says new-password is updated sususfully
+     So, We changed username as admin and changed admin passwd wihout current-passwd parameter. 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Insufficient workflow validation
+
+order 1st product and capture conform-validation(sususfull payment) request and add 2nd product to cart and send conform-validation(sussusfull payment) request of 1st product to bypass payment.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Authentication bypass via flawed state machine
+
+Drop some authentication request and analyze the responce
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Flawed enforcement of business rules
+
+Use coupons alternatively. 
+ ex: DISCOUNT1
+     DISCOUNT2
+     DISCOUNT1
+     DISCOUNT2
+     ......etc... --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
